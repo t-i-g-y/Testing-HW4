@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: "jacoco"
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+dependencies {
+    testImplementation 'org.slf4j:slf4j-api:1.7.21'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+test.finalizedBy jacocoTestReport
